@@ -1,11 +1,16 @@
 # jacksniff
 
+This is a simple tool called jacksniff that uses the high-speed parallel framework in libvdns (a library from the [Vantages DNS library](https://gitlab.com/ginipginob/vantages) 
+open source project) to issue DNS queries of any DNS domain name your chose, across the range of addresses in any IP prefix you choose. 
+The tool then uses libpcap to observe the IP packets returned (if any).  It will log all of the responses, even when more than one response is received.
+
+More can be read about the utility of jacksniff in the technical report [Cross-Modal Vulnerabilities: An Illusive form of Hijacking](https://cs.gmu.edu/~eoster/doc/gfwc-jack.pdf)
+
 # Table of Contents
 
 * [Compiling](#compiling)
 * [Dependencies](#dependencies)
-* [Executable](#executable)
-* [Example Output](#examples)
+* [Example Output](#example)
 
 
 #<a name="compiling"></a>
@@ -76,10 +81,10 @@ The output on each line would, then, be a tab-delimited list of:
 * Round-Trip-Time (RTT): The amount of time (in msec) that elapsed between sending the query and receiving each response (there can be more than one response from a given IP).
 * DNS qname: The query name sent (which may, or may not, be the same as the name of RRs in the response).
 * DNS RCODE: The Response Code returned in the DNS header
-* DNS domain name response: The domain name **in** the DNS resonse.
+* DNS domain name response: The domain name **in** the DNS response.
 * DNS TTL: The TTL value of the DNS response(s).
 * A record value: The IP address in a DNS response (if the answer was an A record).
-* An internal cache key: This is an internal debugging value for jacksniff.
+* An internal cache key: This is an internal debugging value for jacksniff (which includes details such as the timestamp of when the query was sent).
 
 
 
@@ -93,7 +98,7 @@ For example, the above might net the following output:
 1.1.1.1	60	0	61	www.facebook.com	0	star-mini.c10r.facebook.com.	49	31.13.66.35	www.facebook.com.|1|1|32142|16843009|0
 ```
 
-Which would be interpretted as:
+Which would be interpreted as:
 
 | Resp. IP | IP TTL | checksum | RTT (msec) | DNS qname | DNS RCODE | DNS response name | DNS TTL | Answer from A record) | an internal cache key |
 | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- |

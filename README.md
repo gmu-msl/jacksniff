@@ -69,9 +69,20 @@ IP addresses in 1.1.1.0/24 would respond to DNS queries (and what the responses 
 $ sudo ./jacksniff -n 1.1.1.0/24 -q www.facebook.com
 ```
 
-The output would, then, be a tab-delimited list of:
-| Responding IP | IP header TTL | IP checksum | RTT (msec) | DNS qname | DNS RCODE | DNS domain name response | DNS TTL | IP address from response (if answer was an A record) | an internal cache key |
-| --- | --- | --- |--- |--- |--- |--- |--- |--- |--- |
+The output on each line would, then, be a tab-delimited list of:
+* Responding IP: Since jacksniff is designed to scan an IP prefix, each responding IP address is identified.  
+* IP header TTL: The observed IP TTL.
+* IP checksum: The observed value in the IP header.
+* Round-Trip-Time (RTT): The amount of time (in msec) that elapsed between sending the query and receiving each response (there can be more than one response from a given IP).
+* DNS qname: The query name sent (which may, or may not, be the same as the name of RRs in the response).
+* DNS RCODE: The Response Code returned in the DNS header
+* DNS domain name response: The domain name **in** the DNS resonse.
+* DNS TTL: The TTL value of the DNS response(s).
+* A record value: The IP address in a DNS response (if the answer was an A record).
+* An internal cache key: This is an internal debugging value for jacksniff.
+
+
+
 For example, the above might net the following output:
 ```
 1.1.1.3	60	0	60	www.facebook.com	0	www.facebook.com.	3591	-	www.facebook.com.|1|1|1397|16843011|0
@@ -81,3 +92,14 @@ For example, the above might net the following output:
 1.1.1.1	60	0	61	www.facebook.com	0	www.facebook.com.	3589	-	www.facebook.com.|1|1|32142|16843009|0
 1.1.1.1	60	0	61	www.facebook.com	0	star-mini.c10r.facebook.com.	49	31.13.66.35	www.facebook.com.|1|1|32142|16843009|0
 ```
+
+Which would be interpretted as:
+
+| Resp. IP | IP TTL | checksum | RTT (msec) | DNS qname | DNS RCODE | DNS response name | DNS TTL | Answer from A record) | an internal cache key |
+| --- | --- | --- |--- |--- |--- |--- |--- |--- |--- |
+| 1.1.1.3 | 60 | 0 | 60 | www.facebook.com | 0 | www.facebook.com. | 3591 | - | www.facebook.com.\|1\|1\|1397\|16843011\|0
+| 1.1.1.3 | 60 | 0 | 60 | www.facebook.com | 0 | star-mini.c10r.facebook.com. | 51 | 31.13.66.35 | www.facebook.com.\|1\|1\|1397\|16843011\|0
+| 1.1.1.2 | 60 | 0 | 61 | www.facebook.com | 0 | www.facebook.com. | 3593 | - | www.facebook.com.\|1\|1\|63438\|16843010\|0
+| 1.1.1.2 | 60 | 0 | 61 | www.facebook.com | 0 | star-mini.c10r.facebook.com. | 53 | 31.13.66.35 | www.facebook.com.\|1\|1\|63438\|16843010\|0
+| 1.1.1.1 | 60 | 0 | 61 | www.facebook.com | 0 | www.facebook.com. | 3589 | - | www.facebook.com.\|1\|1\|32142\|16843009\|0
+| 1.1.1.1 | 60 | 0 | 61 | www.facebook.com | 0 | star-mini.c10r.facebook.com. | 49 | 31.13.66.35 | www.facebook.com.\|1\|1\|32142\|16843009\|0

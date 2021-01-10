@@ -1,8 +1,8 @@
 # jacksniff
 
 This is a simple tool called jacksniff that uses the high-speed parallel framework in libvdns (a library from the [Vantages DNS library](https://gitlab.com/ginipginob/vantages) 
-open source project) to issue DNS queries of any DNS domain name your chose, across the range of addresses in any IP prefix you choose. 
-The tool then uses libpcap to observe the IP packets returned (if any).  It will log all of the responses, even when more than one response is received.
+open source project) to issue DNS queries to any DNS domain name that you choose, across a range of addresses in any IP prefix that you choose. 
+The tool then uses libpcap to measure the IP packets returned (if any).  It will log all of the responses, even when more than one response is received.
 
 More can be read about the utility of jacksniff in the technical report [Cross-Modal Vulnerabilities: An Illusive form of Hijacking](https://cs.gmu.edu/~eoster/doc/gfwc-jack.pdf)
 
